@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="lo">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Addons Store</title>
+    <!-- 引入 Tailwind CSS ເພື່ອຄວາມສວຍງາມ -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@400;700&family=Noto+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans Lao', 'Noto Sans Thai', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ແຖບເມນູດ້ານເທິງ (Navbar) -->
+    <nav class="bg-zinc-900 border-b border-zinc-800 p-4 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold text-green-500 tracking-wide">MC-ADDON LAO/THAI</h1>
+            
+            <!-- ປຸ່ມປ່ຽນພາສາ -->
+            <div class="flex gap-2">
+                <button onclick="changeLanguage('lo')" id="btn-lo" class="px-3 py-1 rounded bg-green-600 text-white font-medium text-sm transition">ພາສາລາວ</button>
+                <button onclick="changeLanguage('th')" id="btn-th" class="px-3 py-1 rounded bg-zinc-800 text-zinc-450 hover:bg-zinc-700 font-medium text-sm transition">ภาษาไทย</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ສ່ວນຫົວຂໍ້ເວັບໄຊ (Hero Section) -->
+    <header class="py-12 text-center bg-gradient-to-b from-zinc-900 to-transparent">
+        <h2 id="main-title" class="text-3xl md:text-4xl font-bold text-white mb-2">ແຈກ Addon Minecraft ຟຣີ!</h2>
+        <p id="main-subtitle" class="text-zinc-400">ລວມ Addon ທີ່ດີທີ່ສຸດສຳລັບສາຍແຟນຕາຊີ, ເອົາຊີວິດລອດ, ກໍ່ສ້າງ ແລະ ພາບສວຍງາມ</p>
+    </header>
+
+    <!-- ສ່ວນເນື້ອຫາຫຼັກ -->
+    <main class="max-w-6xl mx-auto px-4 pb-16">
+        
+        <!-- ປຸ່ມເລືອກໝວດໝູ່ (Filter) -->
+        <div class="flex flex-wrap gap-2 justify-center mb-10">
+            <button onclick="filterCategory('all')" class="cat-btn px-4 py-2 bg-green-650 text-white rounded-lg hover:bg-green-600 transition font-medium" id="cat-all">ທັງໝົດ / ทั้งหมด</button>
+            <button onclick="filterCategory('fantasy')" class="cat-btn px-4 py-2 bg-zinc-800 text-zinc-300 rounded-lg hover:bg-zinc-700 transition font-medium" id="cat-fantasy">ແຟນຕາຊີ / แฟนตาซี</button>
+            <button onclick="filterCategory('survival')" class="cat-btn px-4 py-2 bg-zinc-800 text-zinc-300 rounded-lg hover:bg-zinc-700 transition font-medium" id="cat-survival">ເອົາຊີວິດລອດ / เอาชีวิตรอด</button>
+            <button onclick="filterCategory('building')" class="cat-btn px-4 py-2 bg-zinc-800 text-zinc-300 rounded-lg hover:bg-zinc-700 transition font-medium" id="cat-building">ກໍ່ສ້າງ / ก่อสร้าง</button>
+            <button onclick="filterCategory('graphics')" class="cat-btn px-4 py-2 bg-zinc-800 text-zinc-300 rounded-lg hover:bg-zinc-700 transition font-medium" id="cat-graphics">ພາບສວຍງາມ / ภาพสวยงาม</button>
+        </div>
+
+        <!-- ລາຍການ Addon (Cards Grid) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="addon-container">
+            <!-- ຂໍ້ມູນຈະຖືກດຶງມາສະແດງດ້ວຍ JavaScript ດ້ານລຸ່ມ -->
+        </div>
+    </main>
+
+    <!-- ສ່ວນທ້າຍເວັບໄຊ (Footer) -->
+    <footer class="border-t border-zinc-800 py-6 text-center text-sm text-zinc-500">
+        &copy; 2026 MC-Addon Share Website. All rights reserved.
+    </footer>
+
+    <!-- ລະບົບຄວບຄຸມພາສາ ແລະ ຂໍ້ມູນ Addon -->
+    <script>
+        // ຄຳແປພາສາໃນເວັບໄຊ
+        const translations = {
+            lo: {
+                mainTitle: "ແຈກ Addon Minecraft ຟຣີ!",
+                mainSubtitle: "ລວມ Addon ທີ່ດີທີ່ສຸດສຳລັບສາຍແຟນຕາຊີ, ເອົາຊີວິດລອດ, ກໍ່ສ້າງ ແລະ ພາບສວຍງາມ",
+                btnView: "ກົດເຂົ້າເບິ່ງ",
+                btnDownload: "ດາວໂຫຼດ Addon",
+                catAll: "ທັງໝົດ",
+                catFantasy: "ແຟນຕາຊີ",
+                catSurvival: "ເອົາຊີວິດລອດ",
+                catBuilding: "ກໍ່ສ້າງ",
+                catGraphics: "ພາບສວຍງາມ"
+            },
+            th: {
+                mainTitle: "แจก Addon Minecraft ฟรี!",
+                mainSubtitle: "รวม Addon ที่ดีที่สุดสำหรับสายแฟนตาซี, เอาชีวิตรอด, ก่อสร้าง และภาพสวยงาม",
+                btnView: "กดเข้าชม",
+                btnDownload: "ดาวน์โหลด Addon",
+                catAll: "ทั้งหมด",
+                catFantasy: "แฟนตาซี",
+                catSurvival: "เอาชีวิตรอด",
+                catBuilding: "ก่อสร้าง",
+                catGraphics: "ภาพสวยงาม"
+            }
+        };
+
+        // ຂໍ້ມູນ Addons ພາຍໃນເວັບ
+        const addonsData = [
+            {
+                id: 1,
+                category: "fantasy",
+                img: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=400&auto=format&fit=crop&q=60", // ຮູບຕົວຢ່າງ
+                title: { lo: "Addon ມັງກອນແຟນຕາຊີ", th: "Addon มังกรแฟนตาซี" },
+                desc: { lo: "ເພີ່ມມັງກອນຫຼາກຫຼາຍສາຍພັນທີ່ສາມາດຂີ່ໄດ້ ແລະ ບິນໄດ້.", th: "เพิ่มมังกรหลากหลายสายพันธุ์ที่สามารถขี่ได้และบินได้" },
+                link: "#"
+            },
+            {
+                id: 2,
+                category: "survival",
+                img: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400&auto=format&fit=crop&q=60",
+                title: { lo: "Addon ເພີ່ມຄວາມຍາກຮູບແບບໃໝ່", th: "Addon เพิ่มความยากรูปแบบใหม่" },
+                desc: { lo: "ເພີ່ມລະບົບຄວາມຫິວນໍ້າ ແລະ ອຸນຫະພູມຮ່າງກາຍເພື່ອຄວາມທ້າທາຍ.", th: "เพิ่มระบบความหิวน้ำและอุณหภูมิร่างกายเพื่อความท้าทาย" },
+                link: "#"
+            },
+            {
+                id: 3,
+                category: "building",
+                img: "https://images.unsplash.com/photo-1605899435973-ca2d1a8861cf?w=400&auto=format&fit=crop&q=60",
+                title: { lo: "Addon ເຟີນີເຈີທັນສະໄໝ", th: "Addon เฟอร์นิเจอร์ทันสมัย" },
+                desc: { lo: "ບລັອກກໍ່ສ້າງ ແລະ ເຟີນີເຈີຕົບແຕ່ງເຮືອນຫຼາຍກວ່າ 100 ຊະນິດ.", th: "บล็อกก่อสร้างและเฟอร์นิเจอร์ตกแต่งบ้านมากกว่า 100 ชนิด" },
+                link: "#"
+            },
+            {
+                id: 4,
+                category: "graphics",
+                img: "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=400&auto=format&fit=crop&q=60",
+                title: { lo: "Shader ພາບສວຍງາມ 4K", th: "Shader ภาพสวยงาม 4K" },
+                desc: { lo: "ປັບປ່ຽນແສງເງົາ ແລະ ລະບົບນໍ້າໃຫ້ສົມຈິງຄືກັບເກມຍຸກໃໝ່.", th: "ปรับเปลี่ยนแสงเงาและระบบน้ำให้สมจริงเหมือนเกมยุคใหม่" },
+                link: "#"
+            }
+        ];
+
+        let currentLang = 'lo';
+        let currentFilter = 'all';
+
+        // ຟັງຊັນປ່ຽນພາສາ
+        function changeLanguage(lang) {
+            currentLang = lang;
+            
+            // ອັບເດດປຸ່ມ Active ພາສາ
+            document.getElementById('btn-lo').className = lang === 'lo' ? 'px-3 py-1 rounded bg-green-600 text-white font-medium text-sm transition' : 'px-3 py-1 rounded bg-zinc-800 text-zinc-400 hover:bg-zinc-700 font-medium text-sm transition';
+            document.getElementById('btn-th').className = lang === 'th' ? 'px-3 py-1 rounded bg-green-600 text-white font-medium text-sm transition' : 'px-3 py-1 rounded bg-zinc-800 text-zinc-400 hover:bg-zinc-700 font-medium text-sm transition';
+
+            // ປ່ຽນຂໍ້ຄວາມຫຼັກ
+            document.getElementById('main-title').innerText = translations[lang].mainTitle;
+            document.getElementById('main-subtitle').innerText = translations[lang].mainSubtitle;
+            
+            // ປ່ຽນຂໍ້ຄວາມປຸ່ມໝວດໝູ່
+            document.getElementById('cat-all').innerText = translations[lang].catAll;
+            document.getElementById('cat-fantasy').innerText = translations[lang].catFantasy;
+            document.getElementById('cat-survival').innerText = translations[lang].catSurvival;
+            document.getElementById('cat-building').innerText = translations[lang].catBuilding;
+            document.getElementById('cat-graphics').innerText = translations[lang].catGraphics;
+
+            // ໂຫຼດລາຍການ Addon ໃໝ່
+            renderAddons();
+        }
+
+        // ຟັງຊັນກັ່ນຕອງໝວດໝູ່
+        function filterCategory(cat) {
+            currentFilter = cat;
+            
+            // ປ່ຽນສີປຸ່ມທີ່ກຳລັງເລືອກ
+            const buttons = document.querySelectorAll('.cat-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-green-600', 'text-white');
+                btn.classList.add('bg-zinc-800', 'text-zinc-300');
+            });
+            
+            document.getElementById(`cat-${cat}`).classList.remove('bg-zinc-800', 'text-zinc-300');
+            document.getElementById(`cat-${cat}`).classList.add('bg-green-600', 'text-white');
+
+            renderAddons();
+        }
+
+        // ຟັງຊັນສະແດງຜົນ Addon
+        function renderAddons() {
+            const container = document.getElementById('addon-container');
+            container.innerHTML = '';
+
+            const filtered = currentFilter === 'all' ? addonsData : addonsData.filter(item => item.category === currentFilter);
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden shadow-lg hover:border-green-500/50 transition duration-350";
+                card.innerHTML = `
+                    <img src="${item.img}" alt="Addon Image" class="w-full h-40 object-cover">
+                    <div class="p-4">
+                        <span class="text-xs font-semibold uppercase tracking-wider text-green-500 bg-green-500/10 px-2 py-1 rounded">${translations[currentLang][`cat${item.category.charAt(0).toUpperCase() + item.category.slice(1)}`]}</span>
+                        <h3 class="text-lg font-bold text-white mt-2 line-clamp-1">${item.title[currentLang]}</h3>
+                        <p class="text-sm text-zinc-400 mt-1 line-clamp-2 h-10">${item.desc[currentLang]}</p>
+                        
+                        <!-- ປຸ່ມກົດເຂົ້າໄປເບິ່ງ ແລະ ປຸ່ມໂຫຼດ -->
+                        <div class="mt-4 flex flex-col gap-2">
+                            <a href="${item.link}" class="w-full text-center py-2 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg font-medium text-sm transition">
+                                ${translations[currentLang].btnView}
+                            </a>
+                            <a href="${item.link}" class="w-full text-center py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg font-medium text-sm transition block">
+                                📥 ${translations[currentLang].btnDownload}
+                            </a>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // ເປີດໜ້າເວັບມາໃຫ້ສະແດງຜົນທັນທີ
+        renderAddons();
+    </script>
+</body>
+</html>
